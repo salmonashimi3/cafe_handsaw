@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>손톱 · HANDSAW — 나무, 커피 그리고 손의 온도</title>
+<meta name="description" content="손톱(HANDSAW) — 나무소품과 가구 쇼룸, 입점 아티스트 갤러리, 그리고 커피와 디저트가 함께하는 자연 친화 카페." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bark:#3a2d22;        /* dark wood */
+    --walnut:#5c4733;
+    --oak:#a07d52;
+    --sand:#cbb189;
+    --cream:#f4ede1;
+    --paper:#faf6ef;
+    --moss:#5f7355;        /* bali green */
+    --leaf:#7c9070;
+    --ink:#2a221b;
+    --maxw:1180px;
+    --r:18px;
+    --shadow:0 18px 50px rgba(58,45,34,.18);
+    /* theme-aware surfaces */
+    --surface:#faf6ef;
+    --surface-2:#f4ede1;
+    --text:#2a221b;
+    --text-soft:#5c4733;
+    --border:#e2d6c2;
+  }
+  /* DARK MODE */
+  [data-theme="dark"]{
+    --surface:#1a140f;
+    --surface-2:#221b14;
+    --text:#ece3d4;
+    --text-soft:#c5b69d;
+    --border:#3a2d22;
+    --shadow:0 18px 50px rgba(0,0,0,.45);
+  }
+  [data-theme="dark"] header.solid{background:rgba(26,20,15,.92);box-shadow:0 6px 24px rgba(0,0,0,.35)}
+  [data-theme="dark"] header.solid .logo,[data-theme="dark"] header.solid .navlinks a{color:var(--text)}
+  [data-theme="dark"] header.solid .burger span{background:var(--text)}
+  [data-theme="dark"] .intro p,[data-theme="dark"] .sechead p{color:var(--text-soft)}
+  [data-theme="dark"] .item,[data-theme="dark"] .marquee,[data-theme="dark"] .vrow{border-color:var(--border)}
+  [data-theme="dark"] .menu-col h3{border-color:var(--border);color:#d9b98a}
+  [data-theme="dark"] .vrow .tx span{color:var(--text-soft)}
+  [data-theme="dark"] .lookbook .tab{border-color:var(--border);color:var(--text-soft)}
+  [data-theme="dark"] .lookbook .tab.active{background:var(--oak);color:#1a140f;border-color:var(--oak)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Noto Sans KR',sans-serif;
+    color:var(--text);
+    background:var(--surface);
+    line-height:1.7;
+    overflow-x:hidden;
+    transition:background .4s ease,color .4s ease;
+  }
+  h1,h2,h3,.serif{font-family:'Cormorant Garamond',serif;font-weight:500;letter-spacing:.3px}
+  img{display:block;width:100%;height:100%;object-fit:cover}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  section{position:relative}
+  .eyebrow{font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;color:var(--oak);font-weight:500}
+  .reveal{opacity:0;transform:translateY(34px);transition:opacity 1s ease,transform 1s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* NAV */
+  header{position:fixed;top:0;left:0;right:0;z-index:50;transition:.4s}
+  nav{display:flex;align-items:center;justify-content:space-between;max-width:var(--maxw);margin:0 auto;padding:20px 28px}
+  .logo{display:flex;align-items:center;gap:12px;color:#fff}
+  .logo .mark{font-size:1.5rem}
+  .logo b{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:600;letter-spacing:1px;line-height:1}
+  .logo span{display:block;font-size:.6rem;letter-spacing:.4em;opacity:.8;margin-top:2px}
+  .navlinks{display:flex;gap:30px;align-items:center}
+  .navlinks a{color:#fff;font-size:.82rem;letter-spacing:.12em;opacity:.9;transition:.3s}
+  .navlinks a:hover{opacity:1}
+  header.solid{background:rgba(250,246,239,.92);backdrop-filter:blur(10px);box-shadow:0 6px 24px rgba(58,45,34,.08)}
+  header.solid .logo,header.solid .navlinks a{color:var(--bark)}
+  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+  .burger span{width:26px;height:2px;background:#fff}
+  header.solid .burger span{background:var(--bark)}
+
+  /* HERO */
+  .hero{height:100vh;min-height:620px;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;
+    background:linear-gradient(rgba(40,30,20,.45),rgba(40,30,20,.55)),var(--walnut);
+    background-size:cover;background-position:center}
+  .hero .wrap{padding-top:60px}
+  .hero .eyebrow{color:var(--sand)}
+  .hero h1{font-size:clamp(3rem,9vw,6.4rem);line-height:.98;margin:18px 0 6px;font-weight:500}
+  .hero .ko{font-size:clamp(1rem,2.6vw,1.35rem);letter-spacing:.5em;font-weight:300;opacity:.92;padding-left:.5em}
+  .hero p.lead{max-width:560px;margin:26px auto 0;font-weight:300;font-size:1.02rem;opacity:.95}
+  .cta{display:inline-flex;gap:16px;margin-top:36px;flex-wrap:wrap;justify-content:center}
+  .btn{padding:14px 30px;border-radius:40px;font-size:.82rem;letter-spacing:.12em;transition:.35s;border:1px solid transparent;cursor:pointer}
+  .btn.primary{background:var(--sand);color:var(--bark);font-weight:500}
+  .btn.primary:hover{background:#fff;transform:translateY(-2px)}
+  .btn.ghost{border-color:rgba(255,255,255,.6);color:#fff}
+  .btn.ghost:hover{background:rgba(255,255,255,.14);transform:translateY(-2px)}
+  .scrollcue{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-size:.62rem;letter-spacing:.3em;color:#fff;opacity:.8}
+  .scrollcue::after{content:"";display:block;width:1px;height:42px;background:#fff;margin:10px auto 0;animation:cue 1.8s infinite}
+  @keyframes cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+  /* INTRO */
+  .intro{padding:120px 0 90px;text-align:center}
+  .intro h2{font-size:clamp(2rem,5vw,3.2rem);line-height:1.15;margin:16px auto 22px;max-width:760px}
+  .intro p{max-width:620px;margin:0 auto;color:var(--walnut);font-weight:300;font-size:1.05rem}
+  .marquee{margin-top:70px;border-top:1px solid #e4d9c6;border-bottom:1px solid #e4d9c6;overflow:hidden;white-space:nowrap;padding:18px 0}
+  .marquee div{display:inline-block;animation:scrollx 26s linear infinite;font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--oak)}
+  .marquee span{margin:0 26px;opacity:.8}
+  .marquee .dot{color:var(--leaf)}
+  @keyframes scrollx{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* SHOWROOM */
+  .band{padding:96px 0}
+  .sechead{max-width:640px;margin-bottom:46px}
+  .sechead h2{font-size:clamp(1.9rem,4.5vw,2.9rem);margin:12px 0}
+  .sechead p{color:var(--walnut);font-weight:300}
+  .grid{display:grid;gap:22px}
+  .showroom{background:var(--surface-2);transition:background .4s ease}
+  .show-grid{grid-template-columns:repeat(12,1fr);grid-auto-rows:200px}
+  .card{position:relative;border-radius:var(--r);overflow:hidden;background:var(--walnut);box-shadow:var(--shadow)}
+  .card img{transition:transform 1.1s ease}
+  .card:hover img{transform:scale(1.06)}
+  .card .cap{position:absolute;left:0;right:0;bottom:0;padding:22px;background:linear-gradient(transparent,rgba(35,26,18,.82));color:#fff}
+  .card .cap h3{font-size:1.5rem}
+  .card .cap small{letter-spacing:.2em;opacity:.85;font-size:.66rem;text-transform:uppercase}
+  .c-a{grid-column:span 7;grid-row:span 2}
+  .c-b{grid-column:span 5}
+  .c-c{grid-column:span 5}
+  .c-d{grid-column:span 4}
+  .c-e{grid-column:span 4}
+  .c-f{grid-column:span 4}
+
+  /* STYLE LOOKBOOK */
+  .lookbook{margin-top:90px}
+  .lookbook .lhead{text-align:center;max-width:620px;margin:0 auto 32px}
+  .lookbook .lhead h3{font-size:clamp(1.6rem,3.6vw,2.3rem);margin:8px 0}
+  .lookbook .lhead p{color:var(--text-soft);font-weight:300}
+  .tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:34px}
+  .tab{padding:9px 20px;border-radius:30px;border:1px solid var(--border);background:transparent;color:var(--text-soft);font-family:inherit;font-size:.8rem;letter-spacing:.06em;cursor:pointer;transition:.3s}
+  .tab:hover{border-color:var(--oak);color:var(--oak)}
+  .tab.active{background:var(--bark);color:#fff;border-color:var(--bark)}
+  .looks{grid-template-columns:repeat(4,1fr)}
+  .look{border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);background:var(--walnut);transition:transform .5s ease,opacity .4s ease}
+  .look.hide{display:none}
+  .look:hover{transform:translateY(-6px)}
+  .look .lph{height:300px;overflow:hidden}
+  .look .lph img{transition:transform 1s}
+  .look:hover .lph img{transform:scale(1.07)}
+  .look .lb{padding:18px 20px 22px;background:var(--surface);transition:background .4s}
+  [data-theme="dark"] .look .lb{background:var(--surface-2)}
+  .look .lb .st{font-size:.64rem;letter-spacing:.22em;text-transform:uppercase;color:var(--oak)}
+  .look .lb h4{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--text);margin:3px 0 4px}
+  .look .lb p{font-size:.83rem;font-weight:300;color:var(--text-soft)}
+
+  /* THEME TOGGLE */
+  .navctrl{display:flex;align-items:center;gap:12px}
+  .toggle{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.5);background:transparent;color:#fff;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:.3s;flex:none}
+  .toggle:hover{background:rgba(255,255,255,.15)}
+  header.solid .toggle{border-color:var(--bark);color:var(--bark)}
+  [data-theme="dark"] header.solid .toggle{border-color:var(--text);color:var(--text)}
+  .navmusic.on{background:var(--sand);color:var(--bark)!important;border-color:var(--sand)!important;animation:mpulse 1.7s infinite}
+  @keyframes mpulse{0%{box-shadow:0 0 0 0 rgba(203,177,137,.55)}70%{box-shadow:0 0 0 10px rgba(203,177,137,0)}100%{box-shadow:0 0 0 0 rgba(203,177,137,0)}}
+
+  /* ARTIST */
+  .artist{background:var(--bark);color:var(--cream)}
+  .artist .eyebrow{color:var(--sand)}
+  .artist .sechead h2{color:var(--paper)}
+  .artist .sechead p{color:#cdbfa9}
+  .artists{grid-template-columns:repeat(3,1fr)}
+  .maker{background:#46362a;border-radius:var(--r);overflow:hidden;transition:.4s}
+  .maker:hover{transform:translateY(-8px)}
+  .maker .ph{height:300px;overflow:hidden}
+  .maker .ph img{transition:transform 1s}
+  .maker:hover .ph img{transform:scale(1.07)}
+  .maker .body{padding:24px 24px 28px}
+  .maker .body h3{font-size:1.6rem;color:#fff}
+  .maker .body .role{font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:var(--sand)}
+  .maker .body p{font-size:.9rem;color:#d6c8b4;font-weight:300;margin-top:10px}
+  .maker .tag{display:inline-block;margin-top:16px;font-size:.7rem;letter-spacing:.14em;color:var(--leaf);border:1px solid #5f7355;padding:5px 12px;border-radius:30px}
+  .artist .note{margin-top:44px;text-align:center;font-weight:300;color:#cdbfa9}
+  .artist .note a{color:var(--sand);border-bottom:1px solid var(--sand);padding-bottom:2px}
+
+  /* MENU */
+  .menu{background:var(--surface);transition:background .4s ease}
+  .menu-grid{grid-template-columns:1fr 1fr;gap:54px}
+  .menu-col h3{font-family:'Cormorant Garamond',serif;font-size:1.9rem;color:var(--walnut);border-bottom:1px solid #e2d6c2;padding-bottom:12px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+  .item{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:13px 0;border-bottom:1px dashed #e8ddc9}
+  .item .nm{font-weight:500}
+  .item .nm small{display:block;font-weight:300;color:#9a8a73;font-size:.76rem;letter-spacing:.02em}
+  .item .pr{font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--oak);white-space:nowrap}
+  .menu .leafline{font-size:1.1rem}
+  .menu-photo{margin-top:60px;border-radius:var(--r);overflow:hidden;height:340px;box-shadow:var(--shadow)}
+
+  /* MUSIC */
+  .music{color:#fff;text-align:center;padding:110px 0;
+    background:linear-gradient(rgba(47,58,42,.78),rgba(47,58,42,.86)),var(--moss);
+    background-size:cover;background-position:center}
+  .music .eyebrow{color:#cfe0c2}
+  .music h2{font-size:clamp(1.9rem,4.5vw,2.9rem);margin:12px 0 14px}
+  .music p{max-width:540px;margin:0 auto;font-weight:300;color:#e7eede}
+  .player{max-width:460px;margin:38px auto 0;background:rgba(255,255,255,.1);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:24px}
+  .player .now{display:flex;align-items:center;gap:16px;text-align:left}
+  .player .disc{width:54px;height:54px;border-radius:50%;background:conic-gradient(#2a221b,#5c4733,#2a221b);flex:none;position:relative;animation:spin 6s linear infinite paused}
+  .player .disc.playing{animation-play-state:running}
+  .player .disc::after{content:"";position:absolute;inset:42%;background:#cfe0c2;border-radius:50%}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .player .meta{flex:1}
+  .player .meta .t{font-weight:500;font-size:.95rem}
+  .player .meta .a{font-size:.75rem;opacity:.8}
+  .player .controls{display:flex;align-items:center;gap:14px;margin-top:18px}
+  .player button.play{width:46px;height:46px;border-radius:50%;border:none;background:var(--sand);color:var(--bark);font-size:1rem;cursor:pointer;flex:none;transition:.3s}
+  .player button.play:hover{background:#fff}
+  .player .skip{background:none;border:none;color:#fff;cursor:pointer;font-size:.78rem;letter-spacing:.1em;opacity:.85}
+  .player .skip:hover{opacity:1}
+  .tracklist{margin-top:18px;text-align:left;font-size:.78rem}
+  .tracklist div{padding:8px 10px;border-radius:10px;cursor:pointer;opacity:.7;transition:.25s;display:flex;justify-content:space-between}
+  .tracklist div:hover{background:rgba(255,255,255,.12);opacity:1}
+  .tracklist div.active{background:rgba(255,255,255,.18);opacity:1}
+  .music small.lic{display:block;margin-top:26px;opacity:.7;font-size:.7rem}
+  .music small.lic a{text-decoration:underline}
+
+  /* VISIT */
+  .visit{background:var(--surface-2);transition:background .4s ease}
+  .visit-grid{grid-template-columns:1fr 1fr;gap:46px;align-items:center}
+  .visit .info h2{font-size:clamp(1.9rem,4.5vw,2.9rem);margin:12px 0 20px}
+  .vrow{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid #e3d7c3}
+  .vrow .ic{font-size:1.1rem;width:26px;flex:none;color:var(--moss)}
+  .vrow .tx b{display:block;font-size:.95rem}
+  .vrow .tx span{font-weight:300;color:var(--walnut);font-size:.9rem}
+  .visit .map{border-radius:var(--r);overflow:hidden;height:420px;box-shadow:var(--shadow);background:var(--sand)}
+  .visit .map iframe{width:100%;height:100%;border:0;filter:grayscale(.2) sepia(.15)}
+
+  /* FORM */
+  .reserve{background:var(--bark);color:var(--cream);text-align:center}
+  .reserve h2{font-size:clamp(1.9rem,4.5vw,2.9rem);margin:12px 0 10px;color:#fff}
+  .reserve p{color:#cdbfa9;font-weight:300;max-width:520px;margin:0 auto 34px}
+  .form{max-width:620px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .form input,.form select,.form textarea{padding:14px 16px;border-radius:12px;border:1px solid #5c4733;background:#46362a;color:#fff;font-family:inherit;font-size:.9rem;width:100%}
+  .form input::placeholder,.form textarea::placeholder{color:#b5a48d}
+  .form .full{grid-column:1/-1}
+  .form button{grid-column:1/-1;justify-self:center}
+  .formnote{margin-top:18px;font-size:.78rem;color:#a8e0a0;min-height:20px}
+
+  /* FOOTER */
+  footer{background:#241b13;color:#b9a98f;padding:64px 0 36px}
+  .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:30px}
+  .foot .logo b{color:#f4ede1}
+  .foot .logo span{color:#9a8a73}
+  .footcol h4{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sand);margin-bottom:12px}
+  .footcol p,.footcol a{font-size:.86rem;font-weight:300;display:block;margin-bottom:6px;color:#c4b59c}
+  .copy{margin-top:44px;padding-top:22px;border-top:1px solid #3a2d22;font-size:.74rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;color:#8c7c64}
+
+  @media(max-width:860px){
+    .navlinks{position:fixed;inset:0 0 0 35%;background:var(--bark);flex-direction:column;justify-content:center;transform:translateX(100%);transition:.4s}
+    .navlinks.open{transform:none}
+    .navlinks a{color:#fff;font-size:1rem}
+    header.solid .navlinks a{color:#fff}
+    .burger{display:flex}
+    .show-grid{grid-template-columns:1fr 1fr;grid-auto-rows:180px}
+    .c-a,.c-b,.c-c,.c-d,.c-e,.c-f{grid-column:span 1;grid-row:span 1}
+    .c-a{grid-column:span 2}
+    .artists,.menu-grid,.visit-grid{grid-template-columns:1fr}
+    .looks{grid-template-columns:1fr 1fr}
+    .form{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<header id="hd">
+  <nav>
+    <a class="logo" href="#top">
+      <span class="mark">🪚</span>
+      <span><b>손톱</b><span>HANDSAW</span></span>
+    </a>
+    <div class="navlinks" id="nav">
+      <a href="#showroom">쇼룸</a>
+      <a href="#artist">아티스트</a>
+      <a href="#menu">카페</a>
+      <a href="#music">뮤직</a>
+      <a href="#visit">오시는 길</a>
+      <a href="#reserve">문의</a>
+    </div>
+    <div class="navctrl">
+      <button class="toggle navmusic" id="navMusic" aria-label="매장 음악 켜기/끄기" title="매장 음악 켜기">♫</button>
+      <button class="toggle" id="themeToggle" aria-label="다크/라이트 모드 전환" title="다크/라이트 모드">🌙</button>
+      <div class="burger" id="burger"><span></span><span></span><span></span></div>
+    </div>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top" style="background-image:linear-gradient(rgba(40,30,20,.42),rgba(40,30,20,.6)),url('https://images.unsplash.com/photo-1604999565976-8913ad2ddb7c?auto=format&fit=crop&w=1920&q=80')">
+  <div class="wrap reveal">
+    <p class="eyebrow">Wood · Coffee · Craft</p>
+    <h1>HANDSAW</h1>
+    <p class="ko">손 톱</p>
+    <p class="lead">나무를 깎는 손의 온도, 발리의 숲을 닮은 공간.<br>가구와 소품, 손으로 빚은 작품, 그리고 한 잔의 커피가 머무는 곳.</p>
+    <div class="cta">
+      <a href="#showroom" class="btn primary">쇼룸 둘러보기</a>
+      <a href="#menu" class="btn ghost">카페 메뉴</a>
+    </div>
+  </div>
+  <div class="scrollcue">SCROLL</div>
+</section>
+
+<!-- INTRO -->
+<section class="intro wrap reveal">
+  <p class="eyebrow">Welcome to 손톱</p>
+  <h2>나무가 자란 시간과<br>커피가 식는 시간 사이</h2>
+  <p>손톱은 자연에서 온 나무 소재를 다루는 사람들과, 그 곁에서 쉬어가는 사람들을 위한 공간입니다. 한쪽엔 손으로 만든 가구와 소품이, 다른 한쪽엔 향 좋은 커피와 디저트가 흐릅니다. 발리의 우드 톤과 초록의 결을 그대로 옮겨 담았습니다.</p>
+</section>
+
+<div class="marquee">
+  <div>
+    <span>HANDMADE FURNITURE</span><span class="dot">✺</span><span>NATURAL WOOD</span><span class="dot">✺</span><span>SLOW COFFEE</span><span class="dot">✺</span><span>ARTISAN GALLERY</span><span class="dot">✺</span><span>BALI MOOD</span><span class="dot">✺</span>
+    <span>HANDMADE FURNITURE</span><span class="dot">✺</span><span>NATURAL WOOD</span><span class="dot">✺</span><span>SLOW COFFEE</span><span class="dot">✺</span><span>ARTISAN GALLERY</span><span class="dot">✺</span><span>BALI MOOD</span><span class="dot">✺</span>
+  </div>
+</div>
+
+<!-- SHOWROOM -->
+<section class="band showroom" id="showroom">
+  <div class="wrap">
+    <div class="sechead reveal">
+      <p class="eyebrow">Showroom</p>
+      <h2>나무 소품 · 가구 쇼룸</h2>
+      <p>오크, 월넛, 애쉬. 결마다 다른 표정을 가진 원목 가구와 소품을 직접 만지고 느껴보세요. 전시된 모든 작품은 구매 및 주문 제작이 가능합니다.</p>
+    </div>
+    <div class="grid show-grid reveal">
+      <div class="card c-a"><img loading="lazy" src="https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=1200&q=80" alt="원목 가구"><div class="cap"><small>Signature Furniture</small><h3>원목 다이닝 컬렉션</h3></div></div>
+      <div class="card c-b"><img loading="lazy" src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=900&q=80" alt="우드 체어"><div class="cap"><small>Seating</small><h3>핸드메이드 체어</h3></div></div>
+      <div class="card c-c"><img loading="lazy" src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=900&q=80" alt="우드 보울"><div class="cap"><small>Tableware</small><h3>나무 그릇 · 소품</h3></div></div>
+      <div class="card c-d"><img loading="lazy" src="https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?auto=format&fit=crop&w=700&q=80" alt="우드 오브제"><div class="cap"><small>Object</small><h3>우드 오브제</h3></div></div>
+      <div class="card c-e"><img loading="lazy" src="https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=700&q=80" alt="우드 인테리어"><div class="cap"><small>Living</small><h3>리빙 스타일링</h3></div></div>
+      <div class="card c-f"><img loading="lazy" src="https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?auto=format&fit=crop&w=700&q=80" alt="우드 디테일"><div class="cap"><small>Detail</small><h3>결의 디테일</h3></div></div>
+    </div>
+
+    <!-- STYLE LOOKBOOK -->
+    <div class="lookbook reveal">
+      <div class="lhead">
+        <p class="eyebrow">Showroom Styles</p>
+        <h3>공간 스타일 룩북</h3>
+        <p>같은 나무라도 어떻게 두느냐에 따라 표정이 달라집니다. 손톱이 제안하는 네 가지 스타일을 골라보세요.</p>
+      </div>
+      <div class="tabs" id="lookTabs">
+        <button class="tab active" data-f="all">전체</button>
+        <button class="tab" data-f="natural">내추럴</button>
+        <button class="tab" data-f="minimal">미니멀</button>
+        <button class="tab" data-f="bali">발리 리조트</button>
+        <button class="tab" data-f="vintage">빈티지</button>
+      </div>
+      <div class="grid looks" id="looks">
+        <div class="look" data-s="natural">
+          <div class="lph"><img loading="lazy" src="https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?auto=format&fit=crop&w=700&q=80" alt="내추럴 스타일"></div>
+          <div class="lb"><span class="st">Natural</span><h4>내추럴 우드</h4><p>밝은 오크와 린넨, 햇살이 머무는 따뜻한 공간.</p></div>
+        </div>
+        <div class="look" data-s="minimal">
+          <div class="lph"><img loading="lazy" src="https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=700&q=80" alt="미니멀 스타일"></div>
+          <div class="lb"><span class="st">Minimal</span><h4>미니멀 라인</h4><p>군더더기 없는 직선, 절제된 톤의 모던 우드.</p></div>
+        </div>
+        <div class="look" data-s="bali">
+          <div class="lph"><img loading="lazy" src="https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=700&q=80" alt="발리 리조트 스타일"></div>
+          <div class="lb"><span class="st">Bali Resort</span><h4>발리 리조트</h4><p>라탄과 초록 식물, 휴양지를 닮은 자연 친화 무드.</p></div>
+        </div>
+        <div class="look" data-s="vintage">
+          <div class="lph"><img loading="lazy" src="https://images.unsplash.com/photo-1531889253067-e2c4e3a25b50?auto=format&fit=crop&w=700&q=80" alt="빈티지 스타일"></div>
+          <div class="lb"><span class="st">Vintage</span><h4>빈티지 월넛</h4><p>짙은 월넛과 세월의 결, 클래식한 빈티지 감성.</p></div>
+        </div>
+        <div class="look" data-s="natural">
+          <div class="lph"><img loading="lazy" src="https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=700&q=80" alt="내추럴 리빙"></div>
+          <div class="lb"><span class="st">Natural</span><h4>내추럴 리빙</h4><p>식물과 원목이 어우러진 편안한 거실 스타일링.</p></div>
+        </div>
+        <div class="look" data-s="bali">
+          <div class="lph"><img loading="lazy" src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=700&q=80" alt="발리 가든"></div>
+          <div class="lb"><span class="st">Bali Resort</span><h4>가든 테라스</h4><p>실내와 정원의 경계를 허무는 트로피컬 우드.</p></div>
+        </div>
+        <div class="look" data-s="minimal">
+          <div class="lph"><img loading="lazy" src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=700&q=80" alt="미니멀 다이닝"></div>
+          <div class="lb"><span class="st">Minimal</span><h4>미니멀 다이닝</h4><p>담백한 우드 테이블이 중심이 되는 식사 공간.</p></div>
+        </div>
+        <div class="look" data-s="vintage">
+          <div class="lph"><img loading="lazy" src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?auto=format&fit=crop&w=700&q=80" alt="빈티지 오브제"></div>
+          <div class="lb"><span class="st">Vintage</span><h4>빈티지 코너</h4><p>오래된 가구와 황동 소품이 만드는 레트로 무드.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARTIST GALLERY -->
+<section class="band artist" id="artist">
+  <div class="wrap">
+    <div class="sechead reveal">
+      <p class="eyebrow">Artist Gallery</p>
+      <h2>입점 아티스트 갤러리</h2>
+      <p>손톱은 온라인으로 입점한 목공 아티스트들의 작업을 소개합니다. 각자의 결을 가진 메이커들의 이야기와 작품을 만나보세요.</p>
+    </div>
+    <div class="grid artists reveal">
+      <div class="maker">
+        <div class="ph"><img loading="lazy" src="https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=900&q=80" alt="아티스트 작업"></div>
+        <div class="body">
+          <span class="role">Furniture Maker</span>
+          <h3>오우영</h3>
+          <p>20년 경력의 가구 장인. 짜맞춤 기법으로 못 없이 완성하는 단단한 원목 가구를 만듭니다.</p>
+          <span class="tag">짜맞춤 · 다이닝</span>
+        </div>
+      </div>
+      <div class="maker">
+        <div class="ph"><img loading="lazy" src="https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=900&q=80" alt="우드 카빙"></div>
+        <div class="body">
+          <span class="role">Wood Carver</span>
+          <h3>나무달</h3>
+          <p>버려진 자투리 나무에 두 번째 삶을 새깁니다. 손으로 깎은 스푼과 그릇이 주력입니다.</p>
+          <span class="tag">카빙 · 식기</span>
+        </div>
+      </div>
+      <div class="maker">
+        <div class="ph"><img loading="lazy" src="https://images.unsplash.com/photo-1566895291281-ea63efd4bc31?auto=format&fit=crop&w=900&q=80" alt="우드 오브제 작업"></div>
+        <div class="body">
+          <span class="role">Object Designer</span>
+          <h3>숲의 결</h3>
+          <p>조명과 오브제 사이. 빛과 나무결이 만나는 무드 오브제를 디자인하는 2인 스튜디오.</p>
+          <span class="tag">조명 · 오브제</span>
+        </div>
+      </div>
+    </div>
+    <p class="note reveal">작가로 입점하고 싶으신가요? <a href="#reserve">손톱 아티스트 지원하기 →</a></p>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="band menu" id="menu">
+  <div class="wrap">
+    <div class="sechead reveal">
+      <p class="eyebrow">Café</p>
+      <h2>커피 · 음료 · 디저트</h2>
+      <p>나무 향 가득한 공간에서 천천히 내린 커피 한 잔. 제철 재료로 만든 디저트와 함께 느린 시간을 즐겨보세요.</p>
+    </div>
+    <div class="grid menu-grid reveal">
+      <div class="menu-col">
+        <h3><span class="leafline">☕</span> Coffee</h3>
+        <div class="item"><span class="nm">핸드드립 (오늘의 원두)<small>Hand Drip of the day</small></span><span class="pr">6.5</span></div>
+        <div class="item"><span class="nm">아메리카노<small>Americano</small></span><span class="pr">4.5</span></div>
+        <div class="item"><span class="nm">손톱 라떼<small>Signature Oat Latte</small></span><span class="pr">5.8</span></div>
+        <div class="item"><span class="nm">흑임자 라떼<small>Black Sesame Latte</small></span><span class="pr">6.0</span></div>
+        <div class="item"><span class="nm">콜드브루<small>Cold Brew</small></span><span class="pr">5.5</span></div>
+
+        <h3 style="margin-top:34px"><span class="leafline">🍵</span> Non-Coffee</h3>
+        <div class="item"><span class="nm">유기농 말차<small>Organic Matcha</small></span><span class="pr">6.0</span></div>
+        <div class="item"><span class="nm">히비스커스 아이스티<small>Hibiscus Iced Tea</small></span><span class="pr">5.5</span></div>
+        <div class="item"><span class="nm">자몽 에이드<small>Grapefruit Ade</small></span><span class="pr">6.0</span></div>
+        <div class="item"><span class="nm">제철 과일 주스<small>Seasonal Juice</small></span><span class="pr">6.5</span></div>
+      </div>
+      <div class="menu-col">
+        <h3><span class="leafline">🍰</span> Dessert</h3>
+        <div class="item"><span class="nm">바스크 치즈케이크<small>Basque Cheesecake</small></span><span class="pr">7.0</span></div>
+        <div class="item"><span class="nm">까눌레<small>Canelé</small></span><span class="pr">4.0</span></div>
+        <div class="item"><span class="nm">제철 과일 타르트<small>Seasonal Fruit Tart</small></span><span class="pr">7.5</span></div>
+        <div class="item"><span class="nm">티라미수<small>Tiramisu</small></span><span class="pr">7.0</span></div>
+        <div class="item"><span class="nm">비건 캐롯 케이크<small>Vegan Carrot Cake</small></span><span class="pr">6.5</span></div>
+
+        <h3 style="margin-top:34px"><span class="leafline">🌿</span> Plate</h3>
+        <div class="item"><span class="nm">아보카도 오픈 토스트<small>Avocado Open Toast</small></span><span class="pr">9.0</span></div>
+        <div class="item"><span class="nm">계절 그래놀라 볼<small>Seasonal Granola Bowl</small></span><span class="pr">8.5</span></div>
+        <div class="item"><span class="nm">치즈 & 넛츠 플레이트<small>Cheese &amp; Nuts</small></span><span class="pr">12.0</span></div>
+      </div>
+    </div>
+    <div class="menu-photo reveal"><img loading="lazy" src="https://images.unsplash.com/photo-1559305616-3f99cd43e353?auto=format&fit=crop&w=1600&q=80" alt="우드 카페 인테리어"></div>
+  </div>
+</section>
+
+<!-- MUSIC -->
+<section class="music" id="music" style="background-image:linear-gradient(rgba(47,58,42,.78),rgba(47,58,42,.88)),url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1920&q=80')">
+  <div class="wrap reveal">
+    <p class="eyebrow">Sound of 손톱</p>
+    <h2>저작권 없는 클래식, 자유롭게</h2>
+    <p>공간에 흐르는 음악은 모두 퍼블릭 도메인 / 자유 이용 클래식입니다. 마음껏 들으며 머무세요.</p>
+
+    <div class="player">
+      <div class="now">
+        <div class="disc" id="disc"></div>
+        <div class="meta">
+          <div class="t" id="tTitle">Bali Garden · 가믈란</div>
+          <div class="a" id="tArtist">발리 정원 · 물소리와 종소리</div>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="play" id="playBtn" aria-label="재생">▶</button>
+        <button class="skip" id="prevBtn">◀ 이전</button>
+        <button class="skip" id="nextBtn">다음 ▶</button>
+      </div>
+      <div class="tracklist" id="tracklist"></div>
+    </div>
+
+    <small class="lic">▶ 버튼(또는 우측 상단 ♫ 아이콘)을 누르면 발리 스파 분위기의 가믈란 앰비언트가 자연 물·바람 소리와 함께 흘러요. 외부 음원 없이 브라우저가 실시간 생성하므로 <b>100% 무료·저작권 없음</b>입니다.</small>
+  </div>
+</section>
+
+<!-- VISIT -->
+<section class="band visit" id="visit">
+  <div class="wrap">
+    <div class="grid visit-grid">
+      <div class="info reveal">
+        <p class="eyebrow">Visit Us</p>
+        <h2>오시는 길</h2>
+        <div class="vrow"><span class="ic">📍</span><span class="tx"><b>주소</b><span>경기도 파주시 동패동 22-15, 카페 손톱 (HANDSAW)</span></span></div>
+        <div class="vrow"><span class="ic">🕘</span><span class="tx"><b>영업시간</b><span>평일 10:00 – 21:00 · 주말 10:00 – 22:00 (연중무휴)</span></span></div>
+        <div class="vrow"><span class="ic">📞</span><span class="tx"><b>전화</b><span>02-1234-5678</span></span></div>
+        <div class="vrow"><span class="ic">📷</span><span class="tx"><b>인스타그램</b><span>@handsaw.seoul</span></span></div>
+        <div class="vrow"><span class="ic">🅿️</span><span class="tx"><b>주차</b><span>건물 뒤편 전용 주차 8대 · 발렛 가능</span></span></div>
+      </div>
+      <div class="map reveal">
+        <iframe loading="lazy" title="카페 손톱 위치 - 경기도 파주시 동패동" src="https://www.openstreetmap.org/export/embed.html?bbox=126.760%2C37.713%2C126.790%2C37.728&layer=mapnik&marker=37.7205%2C126.7750"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVE / CONTACT -->
+<section class="band reserve" id="reserve">
+  <div class="wrap reveal">
+    <p class="eyebrow">Get in touch</p>
+    <h2>문의 · 예약 · 작가 입점</h2>
+    <p>가구 주문 제작, 단체 예약, 아티스트 입점 등 무엇이든 남겨주세요. 빠르게 답해드릴게요.</p>
+    <form class="form" id="contactForm" onsubmit="return submitForm(event)">
+      <input type="text" name="name" placeholder="이름" required>
+      <input type="email" name="email" placeholder="이메일" required>
+      <select name="topic" class="full" required>
+        <option value="">문의 유형 선택</option>
+        <option>카페 / 단체 예약</option>
+        <option>가구 · 소품 주문 제작</option>
+        <option>아티스트 입점 지원</option>
+        <option>기타 문의</option>
+      </select>
+      <textarea name="msg" class="full" rows="4" placeholder="내용을 입력해 주세요" required></textarea>
+      <button type="submit" class="btn primary">보내기</button>
+      <div class="formnote full" id="formnote"></div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a class="logo" href="#top" style="color:#f4ede1"><span class="mark">🪚</span><span><b style="color:#f4ede1">손톱</b><span style="color:#9a8a73">HANDSAW</span></span></a>
+        <p style="margin-top:16px;max-width:280px;color:#9a8a73;font-size:.85rem;font-weight:300">나무, 커피 그리고 손의 온도가 머무는 공간.</p>
+      </div>
+      <div class="footcol">
+        <h4>둘러보기</h4>
+        <a href="#showroom">쇼룸</a><a href="#artist">아티스트 갤러리</a><a href="#menu">카페 메뉴</a><a href="#music">뮤직</a>
+      </div>
+      <div class="footcol">
+        <h4>방문</h4>
+        <p>경기 파주시 동패동 22-15</p><p>매일 10:00 – 21:00</p><a href="#reserve">문의하기</a>
+      </div>
+      <div class="footcol">
+        <h4>소셜</h4>
+        <a href="#">Instagram</a><a href="#">Naver</a><a href="#">Pinterest</a>
+      </div>
+    </div>
+    <div class="copy">
+      <span>© 2026 손톱 HANDSAW. All rights reserved.</span>
+      <span>Photos: Unsplash · Music: Public Domain / CC</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // nav scroll state
+  const hd=document.getElementById('hd');
+  addEventListener('scroll',()=>hd.classList.toggle('solid',scrollY>60));
+  // burger
+  const burger=document.getElementById('burger'),nav=document.getElementById('nav');
+  burger.onclick=()=>nav.classList.toggle('open');
+  nav.querySelectorAll('a').forEach(a=>a.onclick=()=>nav.classList.remove('open'));
+
+  // theme toggle (light/dark)
+  const themeBtn=document.getElementById('themeToggle');
+  function applyTheme(t){
+    if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');themeBtn.textContent='☀';}
+    else{document.documentElement.removeAttribute('data-theme');themeBtn.textContent='🌙';}
+  }
+  let saved='light';
+  try{saved=localStorage.getItem('handsaw-theme')||'light';}catch(e){}
+  applyTheme(saved);
+  themeBtn.onclick=()=>{
+    const dark=document.documentElement.getAttribute('data-theme')==='dark';
+    const next=dark?'light':'dark';
+    applyTheme(next);
+    try{localStorage.setItem('handsaw-theme',next);}catch(e){}
+  };
+
+  // lookbook filter
+  const tabs=document.querySelectorAll('#lookTabs .tab');
+  const looks=document.querySelectorAll('#looks .look');
+  tabs.forEach(tab=>tab.onclick=()=>{
+    tabs.forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    const f=tab.dataset.f;
+    looks.forEach(l=>l.classList.toggle('hide',!(f==='all'||l.dataset.s===f)));
+  });
+
+  // reveal on scroll
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // image fallback (wood gradient) if any image fails
+  document.querySelectorAll('img').forEach(img=>{
+    img.onerror=()=>{img.style.display='none';img.parentElement.style.background='linear-gradient(135deg,#5c4733,#a07d52)';};
+  });
+
+  // ---- MUSIC : 발리 가믈란 앰비언트 (WebAudio 실시간 생성 · 100% 무료/저작권 없음) ----
+  const playBtn=document.getElementById('playBtn');
+  const disc=document.getElementById('disc');
+  const navMusic=document.getElementById('navMusic');
+  const tTitle=document.getElementById('tTitle'),tArtist=document.getElementById('tArtist');
+  const list=document.getElementById('tracklist');
+
+  function freq(n){
+    const m={C:0,'C#':1,D:2,'D#':3,E:4,F:5,'F#':6,G:7,'G#':8,A:9,'A#':10,B:11};
+    const mt=n.match(/^([A-G]#?)(\d)$/); if(!mt) return 0;
+    const midi=m[mt[1]]+(parseInt(mt[2])+1)*12;
+    return 440*Math.pow(2,(midi-69)/12);
+  }
+  // 발리 분위기의 두 가지 무드 (가믈란 + 자연 사운드 베드)
+  const moods=[
+    {name:'Bali Garden · 가믈란',by:'발리 정원 · 물소리와 종소리',pulse:0.55,density:0.78,highProb:0.45,bassEvery:8,bed:'water',
+     mid:['D4','E4','F#4','A4','B4','D5','E5'],high:['D5','E5','F#5','A5','B5'],bass:['D2','A2','D3','G2']},
+    {name:'Forest Spa · 명상',by:'숲 명상 · 바람과 잔향',pulse:0.85,density:0.5,highProb:0.25,bassEvery:6,bed:'wind',
+     mid:['A3','B3','D4','E4','F#4','A4'],high:['A4','B4','D5','E5'],bass:['A1','E2','A2','D2']}
+  ];
+  let ctx,master,cur=0,playing=false,sched=null,nextT=0,step=0,bed=null;
+
+  function makeReverb(){
+    const len=Math.floor(ctx.sampleRate*2.8), buf=ctx.createBuffer(2,len,ctx.sampleRate);
+    for(let c=0;c<2;c++){const d=buf.getChannelData(c);for(let i=0;i<len;i++){d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.6);}}
+    const cv=ctx.createConvolver(); cv.buffer=buf; return cv;
+  }
+  function ensureCtx(){
+    if(ctx) return;
+    ctx=new (window.AudioContext||window.webkitAudioContext)();
+    master=ctx.createGain(); master.gain.value=0.9; master.connect(ctx.destination);
+    const verb=makeReverb(), wet=ctx.createGain(); wet.gain.value=0.55;
+    master.connect(verb); verb.connect(wet); wet.connect(ctx.destination);
+  }
+  // 금속 종소리(메탈로폰) — 비조화 배음 + 빠른 감쇠
+  function bell(f,start,dur,v){
+    [[1,1],[2.01,0.5],[2.76,0.34],[3.95,0.18]].forEach(([r,a])=>{
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.type='sine'; o.frequency.value=f*r; o.connect(g); g.connect(master);
+      g.gain.setValueAtTime(0.0001,start);
+      g.gain.exponentialRampToValueAtTime(Math.max(0.0002,v*a),start+0.006);
+      g.gain.exponentialRampToValueAtTime(0.0001,start+dur);
+      o.start(start); o.stop(start+dur+0.05);
+    });
+  }
+  // 낮은 패드(드론)
+  function pad(f,start,dur,v){
+    const o=ctx.createOscillator(),o2=ctx.createOscillator(),g=ctx.createGain();
+    o.type='sine'; o2.type='triangle'; o.frequency.value=f; o2.frequency.value=f*1.005;
+    o.connect(g); o2.connect(g); g.connect(master);
+    g.gain.setValueAtTime(0,start); g.gain.linearRampToValueAtTime(v,start+1);
+    g.gain.linearRampToValueAtTime(v,start+dur-1.2); g.gain.linearRampToValueAtTime(0,start+dur);
+    o.start(start); o2.start(start); o.stop(start+dur+0.1); o2.stop(start+dur+0.1);
+  }
+  // 자연 사운드 베드 (브라운 노이즈 → 저역 필터 = 물/바람)
+  function startBed(type){
+    stopBed();
+    const len=Math.floor(ctx.sampleRate*4), buf=ctx.createBuffer(1,len,ctx.sampleRate), d=buf.getChannelData(0);
+    let last=0; for(let i=0;i<len;i++){const w=Math.random()*2-1; last=(last+0.02*w)/1.02; d[i]=last*3.2;}
+    const src=ctx.createBufferSource(); src.buffer=buf; src.loop=true;
+    const lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=type==='water'?950:520;
+    const g=ctx.createGain(); g.gain.value=type==='water'?0.06:0.05;
+    src.connect(lp); lp.connect(g); g.connect(ctx.destination); src.start(); bed={src};
+  }
+  function stopBed(){ if(bed){try{bed.src.stop();}catch(e){} bed=null;} }
+
+  // 룩어헤드 스케줄러 — 무한 생성
+  function tick(){
+    if(!playing) return;
+    const m=moods[cur], ahead=ctx.currentTime+0.25;
+    while(nextT<ahead){
+      const t=nextT+Math.random()*0.03;
+      if(Math.random()<m.density) bell(freq(m.mid[Math.floor(Math.random()*m.mid.length)]),t,2.7,0.22);
+      if(step%2===0 && Math.random()<m.highProb) bell(freq(m.high[Math.floor(Math.random()*m.high.length)]),t+m.pulse*0.5,2.1,0.12);
+      if(step%m.bassEvery===0) pad(freq(m.bass[Math.floor(step/m.bassEvery)%m.bass.length]),t,m.pulse*m.bassEvery*1.05,0.09);
+      nextT+=m.pulse; step++;
+    }
+  }
+  function setUI(p){
+    playBtn.textContent=p?'❚❚':'▶'; disc.classList.toggle('playing',p);
+    if(navMusic){ navMusic.classList.toggle('on',p); navMusic.textContent=p?'♪':'♫'; navMusic.title=p?'매장 음악 끄기':'매장 음악 켜기'; }
+  }
+  function meta(){ tTitle.textContent=moods[cur].name; tArtist.textContent=moods[cur].by; [...list.children].forEach((c,i)=>c.classList.toggle('active',i===cur)); }
+  function start(){
+    ensureCtx(); if(ctx.state==='suspended') ctx.resume();
+    playing=true; setUI(true); nextT=ctx.currentTime+0.2; step=0;
+    startBed(moods[cur].bed); clearInterval(sched); sched=setInterval(tick,80); tick();
+  }
+  function stop(){ playing=false; setUI(false); clearInterval(sched); stopBed(); }
+  function go(i){ cur=(i+moods.length)%moods.length; meta(); if(playing){ startBed(moods[cur].bed); step=0; } else start(); }
+
+  moods.forEach((p,i)=>{ const d=document.createElement('div'); d.innerHTML='<span>'+(i+1)+'. '+p.name+'</span><span style="opacity:.6">▷</span>'; d.onclick=()=>go(i); list.appendChild(d); });
+  playBtn.onclick=()=>{ playing?stop():start(); };
+  if(navMusic) navMusic.onclick=()=>{ playing?stop():start(); };
+  document.getElementById('nextBtn').onclick=()=>go(cur+1);
+  document.getElementById('prevBtn').onclick=()=>go(cur-1);
+  meta();
+
+  // contact form (demo)
+  function submitForm(e){
+    e.preventDefault();
+    document.getElementById('formnote').textContent='감사합니다! 문의가 접수되었습니다. 곧 연락드릴게요. 🌿';
+    e.target.reset();
+    return false;
+  }
+</script>
+</body>
+</html>
